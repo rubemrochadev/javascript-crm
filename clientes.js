@@ -1,4 +1,14 @@
-let clientes = sessionStorage.getItem("clientes") ? JSON.parse(sessionStorage.getItem("clientes")) : [];
+let clientes = [];
+
+function buscarClientes() {
+    fetch("http://localhost:3000/clientes")
+    .then((res) => res.json())
+    .then((lista) => {
+        clientes = lista;
+        carregarClientes(clientes);
+    })
+}
+buscarClientes();
 
 
 function carregarClientes(listaDeClientes) {
@@ -22,7 +32,7 @@ function carregarClientes(listaDeClientes) {
 
 carregarClientes(clientes);
 
-function cadastrarCliente(form){
+function cadastrarCliente(form) {
     event.preventDefault();
     // alert("Foi!!!")
 
@@ -31,9 +41,10 @@ function cadastrarCliente(form){
     let cliente = Object.fromEntries(formData.entries());
     // console.log(dados);
 
-//inserir o novo cliente no final do array clientes
+    //inserir o novo cliente no final do array clientes
     clientes.push(cliente);
-    sessionStorage.setItem("clientes",JSON.stringify(clientes));
+    sessionStorage.setItem("clientes", JSON.stringify(clientes));
     mostrarOverlay();
-    carregarClientes(clientes);    
+    carregarClientes(clientes);
 }
+
